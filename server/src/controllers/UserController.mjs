@@ -111,6 +111,7 @@ export const getCurrentUser = async (req, res) => {
 
 //Criação de página do workspace
 export const createPage = async (req, res) => {
+  const { parentPage } = req.body
   try {
     const workspace = await Workspace.findOne({ owner: req.user._id });
 
@@ -119,6 +120,7 @@ export const createPage = async (req, res) => {
       content: '',
       workspaceId: workspace._id,
       author: req.user._id,
+      paretPage: parentPage || null
     });
 
     await newPage.save();
@@ -137,7 +139,7 @@ export const createPage = async (req, res) => {
 export const listPage = async (req, res) => {
   try {
     const userId = req.user._id;
-    const page = await Page.find({ author: userId });
+    const page = await Page.find({ author: userId }).sort({ createdAt: 1 });
     if (!page) {
       return res.status(404).json({
         errors: ['Página não encontrada!'],
@@ -170,7 +172,7 @@ export const autoSave = async (req, res) => {
       })
     }
 
-    if(!page.author.toString() === req.body._id){
+    if(page.author.toString() !== req.body._id){
       return res.status({
         errors: ["Acesso negado!"]
       })
@@ -219,6 +221,38 @@ export const deletePage = async (req, res) => {
   }
   catch(err){
     res.status(500).json({
+      errors: ["Erro interno do servidor!"]
+    })
+    console.error(err)
+  }
+}
+
+//Listagem de páginas de subpáginas
+export const lisParentPages = async (req, res) => {
+  const {
+    workspace,
+    parent
+  } = req.query
+
+  try{
+
+    if(!workspace){
+      return res.status(404).json({
+        errors: ["Workspace não encontrado!"]
+      })
+    }
+
+    const parentPages = await Page.find({
+      workspaceId: workspace,
+      paretPage: parent === "null" ? null : parent,
+      author: req.user._id
+    })
+
+    res.status(200).json(parentPages)
+
+  }
+  catch(err){
+     res.status(500).json({
       errors: ["Erro interno do servidor!"]
     })
     console.error(err)

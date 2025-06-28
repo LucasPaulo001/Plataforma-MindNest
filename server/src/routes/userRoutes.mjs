@@ -15,7 +15,8 @@ import {
   createPage,
   listPage,
   autoSave,
-  deletePage
+  deletePage,
+  lisParentPages
 } from '../controllers/UserController.mjs';
 
 userRoute.post('/register', registerValidations(), validation, register);
@@ -25,5 +26,6 @@ userRoute.post('/create-page', authGuard, createPage);
 userRoute.get('/list-pages', authGuard, listPage);
 userRoute.put('/save-progress/page/:pageId', authGuard, autoSave)
 userRoute.delete('/delete-page/page/:pageId', authGuard, deletePage)
+userRoute.get('/parent-pages', authGuard, lisParentPages)
 
 export default userRoute;
