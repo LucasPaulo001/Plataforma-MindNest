@@ -12,10 +12,14 @@ import {
   register,
   login,
   getCurrentUser,
+  createPage,
+  listPage,
 } from '../controllers/UserController.mjs';
 
 userRoute.post('/register', registerValidations(), validation, register);
 userRoute.post('/login', loginValidations(), validation, login);
 userRoute.get('/profile', authGuard, getCurrentUser);
+userRoute.post('/create-page', authGuard, createPage);
+userRoute.get('/list-pages', authGuard, listPage);
 
 export default userRoute;

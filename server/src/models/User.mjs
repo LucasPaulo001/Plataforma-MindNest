@@ -6,6 +6,12 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    workspaces: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Workspace',
+      },
+    ],
     email: {
       type: String,
       required: true,
