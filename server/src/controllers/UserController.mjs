@@ -150,3 +150,79 @@ export const listPage = async (req, res) => {
     });
   }
 };
+
+//Auto save
+export const autoSave = async (req, res) => {
+
+  const {
+    title,
+    content
+  } = req.body
+
+  const { pageId } = req.params
+
+  try{
+    const page = await Page.findById(pageId)
+
+    if(!page){
+      return res.status(404).json({
+        errors: ["Página não encontrada!"]
+      })
+    }
+
+    if(!page.author.toString() === req.body._id){
+      return res.status({
+        errors: ["Acesso negado!"]
+      })
+    }
+
+    if(title){
+      page.title = title
+    }
+
+    if(content){
+      page.content = content
+    }
+
+    await page.save()
+
+    res.status(201).json({
+      msg: "Página salva",
+      pageSaved: page
+    })
+  }
+  catch(err){
+    res.status(500).json({
+      errors: ["Erro interno do servidor!"]
+    })
+    console.error(err)
+  }
+}
+
+//Deletar página
+export const deletePage = async (req, res) => {
+  const { pageId } = req.params
+
+  try{
+    const page = await Page.findByIdAndDelete(pageId)
+
+    if(!page){
+      return res.status(404).json({
+        errors: ["Página não encontrada!"]
+      })
+    }
+
+    res.status(201).json({
+      msg: "Página deletada com sucesso!"
+    })
+
+  }
+  catch(err){
+    res.status(500).json({
+      errors: ["Erro interno do servidor!"]
+    })
+    console.error(err)
+  }
+}
+
+
