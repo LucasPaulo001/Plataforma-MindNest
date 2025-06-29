@@ -1,0 +1,41 @@
+.container {
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container form {
+  width: 65%;
+  height: 100%;
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  box-shadow: 0px 0px 20px 0px silver;
+  gap: 3vw;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  color: #0372b1;
+}
+
+.localBtn {
+  width: 50%;
+}
+
+.eye {
+  position: absolute;
+  right: 5px;
+  bottom: 7px;
+  font-size: 1.2vw;
+  cursor: pointer;
+}
+
+.localInput {
+  width: 50%;
+  position: relative;
+}
+
+.localImg img {
+  height: 90px;
+}

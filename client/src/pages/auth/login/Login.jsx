@@ -1,0 +1,70 @@
+import { useState } from "react";
+import { Input } from "../../../components/inputs/Input";
+import styles from "../style.module.css";
+import { Button } from "../../../components/buttons/Button";
+import logo from "../../../assets/images/logo.png";
+import { LuEyeClosed, LuEye } from "react-icons/lu";
+
+import { Link } from "react-router-dom";
+
+export const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPass, setShowPass] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(email, password);
+  };
+
+  const showEyePass = () => {
+    setShowPass((prev) => !prev);
+  };
+
+  return (
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit}>
+        <div className={styles.localImg}>
+          <img src={logo} alt="logo do MindNest" />
+        </div>
+        <div className={styles.localInput}>
+          <Input
+            type={"email"}
+            placeholder={"E-mail"}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className={styles.localInput}>
+          {showPass ? (
+            <>
+              <Input
+                type={"text"}
+                placeholder={"Senha"}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <LuEye className={styles.eye} onClick={showEyePass} />
+            </>
+          ) : (
+            <>
+              <Input
+                type={"password"}
+                placeholder={"Senha"}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <LuEyeClosed className={styles.eye} onClick={showEyePass} />
+            </>
+          )}
+        </div>
+        <span>
+          <Link to={"#"}>Esqueceu a senha?</Link>
+        </span>
+        <div className={styles.localBtn}>
+          <Button text={"Login"} type={"submit"} />
+        </div>
+        <span>
+          É novo por aqui? Faça o cadastro <Link to={"/register"}>aqui!</Link>
+        </span>
+      </form>
+    </div>
+  );
+};
