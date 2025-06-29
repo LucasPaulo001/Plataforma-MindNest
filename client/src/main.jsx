@@ -3,8 +3,13 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 
+//Provider (aqui ele "amarrará" toda a aplicação e injetará os dados")
+import { AuthProvider } from './contexts/authContext.jsx'
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <AuthProvider>  
+      <App />
+    </AuthProvider>
   </StrictMode>,
 )

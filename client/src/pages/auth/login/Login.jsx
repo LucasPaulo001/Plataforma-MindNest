@@ -1,25 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../../../components/inputs/Input";
 import styles from "../style.module.css";
 import { Button } from "../../../components/buttons/Button";
 import logo from "../../../assets/images/logo.png";
 import { LuEyeClosed, LuEye } from "react-icons/lu";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../contexts/authContext";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
+  const { login, usuario } = useAuth();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(email, password);
-  };
+  const navigate = useNavigate();
 
+  //Função de manipulação do eye no password
   const showEyePass = () => {
     setShowPass((prev) => !prev);
   };
+
+  //Função de login
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await login(email, password);
+  };
+
+  //Importante para redirecionar após o login
+  useEffect(() => {
+    if (usuario && usuario.token) {
+      navigate("/home");
+    }
+  }, [usuario]);
 
   return (
     <div className={styles.container}>

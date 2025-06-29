@@ -6,6 +6,8 @@ import { Button } from "../../../components/buttons/Button";
 import { LuEyeClosed, LuEye } from "react-icons/lu";
 
 import { Link } from "react-router-dom";
+import { useAuth } from "../../../contexts/authContext";
+import { Loading } from "../../../components/loading/Loading";
 
 export const Register = () => {
   const [nome, setNome] = useState("");
@@ -15,20 +17,37 @@ export const Register = () => {
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const { register, loading, success, error } = useAuth();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    register(nome, email, password, confirmPass);
+    setNome("")
+    setEmail("")
+    setPassword("")
+    setConfirmPass("")
+  };
+
+  // Função de "eye" para o password
   const showEyePass = () => {
     setShowPass((prev) => !prev);
   };
 
+  // Função de "eye" para o confirmPassword
   const showEyePassConfirm = () => {
-    setShowConfirmPassword((prev) => !prev)
-  }
+    setShowConfirmPassword((prev) => !prev);
+  };
 
   return (
     <div className={styles.container}>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className={styles.localImg}>
           <img src={logo} alt="logo do MindNest" />
         </div>
+        {success && <span className="msgSuccess">{success}</span>}
+        {error &&
+          Array.isArray(error) &&
+          error.map((err, i) => <span className="msgError" key={i}>{err.msg || err}</span>)}
         <div className={styles.localInput}>
           <Input
             type={"text"}
@@ -86,15 +105,22 @@ export const Register = () => {
               <Input
                 value={confirmPass}
                 type={"password"}
-                placeholder={"Senha"}
+                placeholder={"Repita a senha..."}
                 onChange={(e) => setConfirmPass(e.target.value)}
               />
-              <LuEyeClosed className={styles.eye} onClick={showEyePassConfirm} />
+              <LuEyeClosed
+                className={styles.eye}
+                onClick={showEyePassConfirm}
+              />
             </>
           )}
         </div>
         <div className={styles.localBtn}>
-          <Button text={"Cadastrar"} type={"submit"} />
+          {loading ? (
+            <Loading />
+          ) : (
+            <Button text={"Cadastrar"} type={"submit"} />
+          )}
         </div>
         <span>
           Já tem uma conta? faça seu login <Link to={"/login"}>aqui!</Link>

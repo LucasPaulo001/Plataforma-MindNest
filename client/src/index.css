@@ -48,3 +48,12 @@ a{
   text-decoration: none;
   font-weight: bold;
 }
+
+/* Mensagens */
+.msgSuccess{
+  color: green;
+}
+
+.msgError{
+  color: red;
+}
