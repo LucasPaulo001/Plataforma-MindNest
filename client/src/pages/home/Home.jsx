@@ -1,8 +1,11 @@
+import { Editor } from "../../components/editor/Editor"
+import { Sidebar } from "../../components/sidebar/Sidebar"
 
 export const Home = () => {
     return(
-        <div>
-            Home
+        <div className="containerHome">
+            <Sidebar />
+            <Editor />
         </div>
     )
 }

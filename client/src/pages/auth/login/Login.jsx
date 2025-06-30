@@ -7,12 +7,13 @@ import { LuEyeClosed, LuEye } from "react-icons/lu";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/authContext";
+import { Loading } from "../../../components/loading/Loading";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
-  const { login, usuario } = useAuth();
+  const { login, usuario, loading } = useAuth();
 
   const navigate = useNavigate();
 
@@ -73,7 +74,12 @@ export const Login = () => {
           <Link to={"#"}>Esqueceu a senha?</Link>
         </span>
         <div className={styles.localBtn}>
-          <Button text={"Login"} type={"submit"} />
+          {loading ? (
+            <Loading />
+          ) : (
+            <Button text={"Login"} type={"submit"} />
+          )}
+          
         </div>
         <span>
           É novo por aqui? Faça o cadastro <Link to={"/register"}>aqui!</Link>

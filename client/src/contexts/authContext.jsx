@@ -11,17 +11,17 @@ export const AuthProvider = ({ children }) => {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [usuario, setUsuario] = useState({})
-  const [token, setToken] = useState(null)
-
+  const [usuario, setUsuario] = useState({});
+  const [token, setToken] = useState(null);
 
   //Pegando o token e setando no localstorage (importante para persistir o token após recarregar a página)
   useEffect(() => {
-    const token = localStorage.getItem("token")
-    if(token){
-      setToken(token)
+    const token = localStorage.getItem("token");
+    if (token && usuario) {
+      setToken(token);
+      getMe()
     }
-  }, [])
+  }, []);
 
   //Função de registro
   const register = async (nome, email, password, confirmPass) => {
@@ -61,56 +61,62 @@ export const AuthProvider = ({ children }) => {
 
   //Função de login
   const login = async (email, password) => {
-    try{
+    try {
+      setLoading(true);
       const res = await fetch(`${API_URI}/api/users/login`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-type': 'application/json'
+          "Content-type": "application/json",
         },
-        body: JSON.stringify({ email, password })
-      })
+        body: JSON.stringify({ email, password }),
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
-      if(!res.ok){
-        console.log(data.errors || [])
+      if (!res.ok) {
+        console.log(data.errors || []);
+        setLoading(false);
+        return;
       }
       //Setando token, dados do usuário (id) e colocando o token no localstorage
-      setToken(data.token)
-      setUsuario({_id: data._id})
-      localStorage.setItem("token", data.token)
-      await getMe()
+      setToken(data.token);
+      localStorage.setItem("token", data.token);
+      await getMe();
+      setLoading(false);
+
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
     }
-    catch(err){
-      console.log(err)
-    }
-  }
+  };
 
   //Função para pegar dados do usuário (Importante para inicializar com os dados do usuário logado)
   const getMe = async () => {
-    try{
+    try {
       const res = await fetch(`${API_URI}/api/users/profile`, {
         // A autorização é importante para conseguir ter acesso aos dados do usuário
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
-        }
-      })
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
-      if(res.ok){
-        console.log(data)
+      if (res.ok) {
+        setUsuario(data);
+        console.log(data);
       }
+    } catch (err) {
+      console.log(err);
     }
-    catch(err){
-      console.log(err)
-    }
-  }
-
+  };
 
   return (
     // Aqui injetamos no contexto todas as funções
-    <AuthContext.Provider value={{ register, loading, success, error, login, usuario, token }}>
+    <AuthContext.Provider
+      value={{ register, loading, success, error, login, usuario, token }}
+    >
       {children}
     </AuthContext.Provider>
   );

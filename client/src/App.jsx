@@ -15,7 +15,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/login' element={!token ? <Login /> : <Navigate to={"/home"} /> } />
-          <Route path='/register' element={<Register />} />
+          <Route path='/register' element={!token ? <Register /> : <Navigate to={"/home"}/>} />
           <Route path='/home' element={!token ? <Navigate to="/login" /> : <Home />} />
 
           {/*Se não tiver token ou for para páginas desconhecidas levam para a home ou login */}
