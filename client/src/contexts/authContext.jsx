@@ -94,6 +94,8 @@ export const AuthProvider = ({ children }) => {
   //Função para pegar dados do usuário (Importante para inicializar com os dados do usuário logado)
   const getMe = async () => {
     try {
+      setLoading(true)
+
       const res = await fetch(`${API_URI}/api/users/profile`, {
         // A autorização é importante para conseguir ter acesso aos dados do usuário
         headers: {
@@ -106,9 +108,13 @@ export const AuthProvider = ({ children }) => {
       if (res.ok) {
         setUsuario(data);
         console.log(data);
+        setLoading(false)
       }
     } catch (err) {
       console.log(err);
+    }
+    finally{
+      setLoading(false)
     }
   };
 
