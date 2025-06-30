@@ -75,6 +75,19 @@ a {
   background-color: #0372b1;
 }
 
+.liSideBar {
+  list-style: none;
+  padding: 1em;
+  width: 100%;
+  cursor: pointer;
+  transition: .4s ease-in-out;
+}
+
+.liSideBar:hover{
+  border-bottom: 1px solid #0372b1;
+  color: #0372b1;
+}
+
 aside {
   width: 250px;
   text-align: center;
