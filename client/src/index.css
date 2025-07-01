@@ -80,11 +80,24 @@ a {
   padding: 1em;
   width: 100%;
   cursor: pointer;
-  transition: .4s ease-in-out;
+  transition: 0.4s ease-in-out;
 }
 
-.liSideBar:hover{
+.liSideBar:hover {
   border-bottom: 1px solid #0372b1;
+  color: #0372b1;
+}
+
+.listPage {
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: space-between;
+}
+
+.listPage svg {
+  font-size: 1.6vw;
+  cursor: pointer;
   color: #0372b1;
 }
 
@@ -97,6 +110,33 @@ aside {
   gap: 1vw;
   flex-direction: column;
   align-items: center;
+}
+
+.dropdown {
+  position: absolute;
+  height: 150px;
+  width: 100%;
+  bottom: -10vw;
+  background-color: white;
+  z-index: 999;
+  border-radius: 10px;
+  padding: 1vw;
+}
+
+.optionDrop {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1vw;
+  transition: .4s ease-in-out;
+  cursor: pointer;
+  border-bottom: 1px solid #0371b17c;
+}
+
+.optionDrop:hover{
+  border-radius: 1vw;
+  background-color: #0371b17c;
+  color: white;
 }
 
 .mainContent {
