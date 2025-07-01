@@ -156,6 +156,8 @@ export const editPage = async (req, res) => {
       page.title = title;
     }
 
+    await page.save();
+
     res.status(201).json({
       msg: 'Página editada com sucesso!',
       pageEdited: page,
