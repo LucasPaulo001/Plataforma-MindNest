@@ -10,6 +10,7 @@ import {
   deletePage,
   listParentPages,
   editPage,
+  listPageById
 } from '../controllers/PageController.mjs';
 
 pageRouter.post('/create-page', authGuard, createPage);
@@ -18,5 +19,6 @@ pageRouter.put('/save-progress/page/:pageId', authGuard, autoSave);
 pageRouter.delete('/delete-page/page/:pageId', authGuard, deletePage);
 pageRouter.get('/parent-pages', authGuard, listParentPages);
 pageRouter.put('/edit-page/:pageId/edit', authGuard, editPage);
+pageRouter.get('/page/:pageId', authGuard, listPageById);
 
 export default pageRouter;
