@@ -138,6 +138,27 @@ export const listParentPages = async (req, res) => {
   }
 };
 
+//Listagem de página única pelo id
+export const listPageById = async (req, res) => {
+  const { pageId } = req.params;
+
+  try{
+    const page = await Page.findById(pageId);
+    if(!page){
+      return res.status(404).json({
+        errors: ["Página não encontrada!"]
+      });
+    }
+    res.status(200).json(page)
+  }
+  catch(err){
+    res.status(500).json({
+      errors: ['Erro interno do servidor!'],
+    });
+    console.error(err);
+  }
+}
+
 //Edição de páginas
 export const editPage = async (req, res) => {
   const { title } = req.body;
