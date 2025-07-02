@@ -16,7 +16,7 @@ export const Sidebar = () => {
   const [dropdownId, setDropdownId] = useState(null);
   const [title, setTitle] = useState("");
   const { usuario, loading } = useAuth();
-  const { createPage, loadingPage, pages, fetchPages, editInfo } = usePage();
+  const { createPage, loadingPage, pages, fetchPages, editInfo, deletePage } = usePage();
 
   const navigate = useNavigate();
 
@@ -33,6 +33,11 @@ export const Sidebar = () => {
 
     await fetchPages(usuario.workspaces[0]);
   };
+
+  //Função de deletar página
+  const handleDelete = async (pageId) => {
+    await deletePage(pageId)
+  }
 
   return (
     <aside>
@@ -72,6 +77,7 @@ export const Sidebar = () => {
               onClick={() => navigate(`/home?page=${p._id}`)}
               
             >
+              {/* Input de edição */}
               {edit === p._id ? (
                 <div>
                   <Input
@@ -84,6 +90,7 @@ export const Sidebar = () => {
                 p.title
               )}
             </li>
+            {/* Botão de envio de dados de edição V */}
             {edit === p._id ? (
               <FaCheck onClick={async () => {
                 await editInfo(p._id, title);
@@ -91,6 +98,7 @@ export const Sidebar = () => {
                 fetchPages(usuario.workspaces[0]);
               }}/>
             ) : (
+              // Botão de abertura do dropdown
               <HiDotsVertical
                 onClick={() =>
                   setDropdownId((prevId) => (prevId === p._id ? null : p._id))
@@ -98,12 +106,15 @@ export const Sidebar = () => {
               />
             )}
 
+            {/* Dropdown */}
             {dropdownId === p._id && (
               <Dropdown
                 list={p._id}
+                handleDelete={() => handleDelete(p._id)}
+                
                 setEdit={() => {
                   setEdit(p._id);
-                  setTitle(p.title); // <- importante
+                  setTitle(p.title);
                 }}
               />
             )}

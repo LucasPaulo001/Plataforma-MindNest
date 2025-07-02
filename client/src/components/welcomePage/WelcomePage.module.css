@@ -1,0 +1,12 @@
+.mainContent {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainContent h1{
+    color: #0372b1;
+}

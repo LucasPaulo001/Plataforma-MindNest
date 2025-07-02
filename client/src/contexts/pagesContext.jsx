@@ -87,9 +87,35 @@ export const PagesProvider = ({ children }) => {
     }
   };
 
+  //Deletar páginas
+  const deletePage = async (pageId) => {
+    try{
+      setLoadingPage(true)
+      const res = await fetch(`${API_URI}/api/pages/delete-page/page/${pageId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+      const data = await res.json()
+
+      if(res.ok){
+        console.log(data)
+        await fetchPages()
+        setLoadingPage(false)
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setLoadingPage(false)
+    }
+  }
+
   return (
     <PagesContext.Provider
-      value={{ createPage, loadingPage, page, pages, fetchPages, editInfo }}
+      value={{ createPage, loadingPage, page, pages, fetchPages, editInfo, deletePage }}
     >
       {children}
     </PagesContext.Provider>
