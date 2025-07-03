@@ -21,3 +21,9 @@
 .localEdit:hover{
     border-bottom: 5px solid #0372b1;
 }
+
+@media(max-width: 480px){
+  .containerEdit{
+    gap: 8vw;
+  }
+}

@@ -102,7 +102,6 @@ export const PagesProvider = ({ children }) => {
 
       if(res.ok){
         console.log(data)
-        await fetchPages()
         setLoadingPage(false)
       }
     }

@@ -1,0 +1,26 @@
+.openMenu{
+  display: none;
+}
+
+@media (max-width: 480px) {
+  aside {
+    width: 0;
+    overflow: hidden;
+    transition: .4s ease-in-out;
+  }
+
+  .openMenu {
+    display: flex;
+    color: #0372b1;
+    position: fixed;
+    font-size: 10vw;
+    background: transparent;
+    border: none;
+    z-index: 9999;
+  }
+
+  .open{
+    width: 100%;
+    overflow: visible;
+  }
+}

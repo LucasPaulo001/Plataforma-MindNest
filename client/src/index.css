@@ -21,9 +21,23 @@ body {
   transition: 0.4s;
 }
 
-.containerTool{
-  display: flex;
+.containerTool {
+  display: grid;
   gap: 1em;
+  grid-template-columns: repeat(13, 1fr);
+}
+
+/* Responsividade do menuTool */
+@media(max-width: 865px){
+  .containerTool{
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
+@media(max-width: 630px){
+  .containerTool{
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .active {
@@ -192,12 +206,19 @@ aside {
   width: 50%;
 }
 
-.status{
+.status {
   position: absolute;
   left: 10px;
 }
 
-#d_pdf{
-  color: rgba(255, 0, 0, 0.726);
+@media(max-width: 480px){
+  .status{
+    top: 10px;
+    right: 10px !important;
+    left: auto !important;
+  }
 }
 
+#d_pdf {
+  color: rgba(255, 0, 0, 0.726);
+}

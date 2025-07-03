@@ -1,19 +1,41 @@
 import styles from "./Editor.module.css";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useEffect, useRef } from "react";
+import Underline from "@tiptap/extension-underline";
+import TextColor from "@tiptap/extension-color";
+import TextStyle from "@tiptap/extension-text-style";
+import TextAlign from "@tiptap/extension-text-align";
+import { useEffect, useRef, useState } from "react";
 import { MenuBar } from "../menuBar/MenuBar";
 import { usePage } from "../../contexts/pagesContext";
 import { Loading } from "../loading/Loading";
-import html2pdf from "html2pdf.js"
+import html2pdf from "html2pdf.js";
 
 export const Editor = ({ pageData, content }) => {
   const timeoutRef = useRef(null);
-  const { autoSave, loadingAutoSave, success } = usePage();
+  const { autoSave, loadingAutoSave, success, pages } = usePage();
+  const [infoTitle, setInfoTitle] = useState(null);
+
+  //Atualização do title na edição
+  useEffect(() => {
+    if (Array.isArray(pages) && pageData?._id) {
+      const current = pages.find((p) => p._id === pageData._id);
+      if (current) setInfoTitle(current.title);
+    }
+  }, [pages, pageData._id]);
 
   //Configuração do editor
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit,
+      Underline,
+      TextColor,
+      TextStyle,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
+    ],
+
     content: content || "<p>Escreva sua nota...</p>",
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
@@ -30,41 +52,41 @@ export const Editor = ({ pageData, content }) => {
   useEffect(() => {
     if (editor && content) {
       editor.commands.setContent(content || "");
-      console.log(pageData)
+      console.log(pageData);
     }
   }, [content]);
 
   //Baixar conteúdo em pdf
   const handleDownloadPDF = () => {
-    const contentElement = document.getElementById("editorContentToExport")
-    contentElement.classList.remove(styles.localEdit)
+    const contentElement = document.getElementById("editorContentToExport");
+    contentElement.classList.remove(styles.localEdit);
 
-    if(!contentElement) return
+    if (!contentElement) return;
 
     const opt = {
       margin: 0.5,
-      filename: `${pageData.title|| 'Documento'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98  },
+      filename: `${pageData.title || "Documento"}.pdf`,
+      image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    }
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+    };
 
     html2pdf()
-    .set(opt)
-    .from(contentElement)
-    .save()
-    .then(() => {
-      contentElement.classList.add(styles.localEdit)
-    })
-  }
+      .set(opt)
+      .from(contentElement)
+      .save()
+      .then(() => {
+        contentElement.classList.add(styles.localEdit);
+      });
+  };
 
   return (
     <div className={styles.containerEdit}>
-      <h2>{pageData.title}</h2>
+      <h2>{infoTitle}</h2>
       <MenuBar editor={editor} handleDownload={handleDownloadPDF} />
       <div className="status">
-        {loadingAutoSave && <Loading /> }
-        {success && <span className="msgSuccess">{success}</span>}
+        {loadingAutoSave && <Loading />}
+        {success && <span className="msgSuccess saveMsg">{success}</span>}
       </div>
 
       <div id="editorContentToExport" className={styles.localEdit}>

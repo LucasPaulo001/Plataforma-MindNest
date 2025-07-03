@@ -1,6 +1,19 @@
-import { FaBold, FaItalic, FaList, FaUndo, FaRedo } from "react-icons/fa";
+import {
+  FaBold,
+  FaItalic,
+  FaList,
+  FaUndo,
+  FaRedo,
+  FaUnderline,
+} from "react-icons/fa";
 import { MdOutlineTitle } from "react-icons/md";
 import { FaFilePdf } from "react-icons/fa6";
+import {
+  CiTextAlignLeft,
+  CiTextAlignCenter,
+  CiTextAlignRight,
+  CiTextAlignJustify
+} from "react-icons/ci";
 
 export const MenuBar = ({ editor, handleDownload }) => {
   if (!editor) return null;
@@ -22,6 +35,46 @@ export const MenuBar = ({ editor, handleDownload }) => {
       </button>
 
       <button
+        onClick={() => editor.chain().focus().toggleUnderline().run()}
+        className={`btnTool ${editor.isActive("underline") ? "active" : ""}`}
+      >
+        <FaUnderline />
+      </button>
+
+      <button
+        className="btnTool"
+        onClick={() => editor.chain().focus().setTextAlign('left').run()}
+      >
+        <CiTextAlignLeft />
+      </button>
+
+      <button
+        className="btnTool"
+        onClick={() => editor.chain().focus().setTextAlign('center').run()}
+      >
+        <CiTextAlignCenter />
+      </button>
+
+      <button
+        className="btnTool"
+        onClick={() => editor.chain().focus().setTextAlign('right').run()}
+      >
+        <CiTextAlignRight />
+      </button>
+
+      <button
+        className="btnTool"
+        onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+      >
+        <CiTextAlignJustify />
+      </button>
+
+      <input
+        type="color"
+        onChange={(e) => editor.chain().focus().setColor(e.target.value).run()}
+      />
+
+      <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={`btnTool ${editor.isActive("bulletList") ? "active" : ""}`}
       >
@@ -37,24 +90,20 @@ export const MenuBar = ({ editor, handleDownload }) => {
         <MdOutlineTitle />
       </button>
 
-      <button 
+      <button
         onClick={() => editor.chain().focus().undo().run()}
         className="btnTool"
-        >
+      >
         <FaUndo />
       </button>
-      <button 
+      <button
         onClick={() => editor.chain().focus().redo().run()}
         className="btnTool"
-        >
+      >
         <FaRedo />
       </button>
 
-      <button
-        onClick={handleDownload}
-        className="btnTool"
-        id="d_pdf"
-      >
+      <button onClick={handleDownload} className="btnTool" id="d_pdf">
         <FaFilePdf />
       </button>
     </div>
