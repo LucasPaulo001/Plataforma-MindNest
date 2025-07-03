@@ -1,5 +1,6 @@
 .containerEdit {
   display: flex;
+  position: relative;
   justify-content: flex-start;
   align-items: center;
   flex: 1;

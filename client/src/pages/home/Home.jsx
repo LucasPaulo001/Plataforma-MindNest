@@ -32,6 +32,7 @@ export const Home = () => {
                 if(res.ok){
                     setPageData(data)
                     setLoading(false)
+                    console.log(data)
                 }
                 else{
                     setPageData(null)
@@ -54,7 +55,7 @@ export const Home = () => {
 
             {loading ? <span className="center"><Loading /></span> :
                 pageData ? 
-                    <Editor pageData={pageData} /> 
+                    <Editor pageData={pageData} content={pageData.content} /> 
                     : 
                     <WelcomePage />
             }

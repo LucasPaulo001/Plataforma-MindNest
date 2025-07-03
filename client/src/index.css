@@ -27,7 +27,7 @@ body {
 }
 
 .active {
-  background-color: black !important;
+  background-color: #0372b1 !important;
   color: white;
 }
 
@@ -70,6 +70,7 @@ a {
 /* Mensagens */
 .msgSuccess {
   color: green;
+  font-weight: bold;
 }
 
 .msgError {
@@ -190,3 +191,13 @@ aside {
 .localBtn {
   width: 50%;
 }
+
+.status{
+  position: absolute;
+  left: 10px;
+}
+
+#d_pdf{
+  color: rgba(255, 0, 0, 0.726);
+}
+

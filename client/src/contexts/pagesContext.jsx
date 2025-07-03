@@ -9,6 +9,7 @@ export const PagesProvider = ({ children }) => {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [loadingPage, setLoadingPage] = useState(false);
+  const [loadingAutoSave, setLoadingAutoSave] = useState(false)
   const [page, setPage] = useState(null);
   const [pages, setPages] = useState([]);
 
@@ -115,6 +116,7 @@ export const PagesProvider = ({ children }) => {
 
   //Autosalvar páginas
   const autoSave = async (pageId, content) => {
+    setLoadingAutoSave(true)
     try{
       const res = await fetch(`${API_URI}/api/pages/save-progress/page/${pageId}`, {
         method: 'PUT',
@@ -127,16 +129,36 @@ export const PagesProvider = ({ children }) => {
       const data = await res.json()
       if(res.ok){
         console.log(data)
+        setLoadingAutoSave(false)
+        setSuccess("Página salva!")
+
+        setTimeout(() => {
+          setSuccess("")
+        }, 2000)
       }
     } 
     catch(err){
       console.log(err)
     }
+    finally{
+      setLoadingAutoSave(false)
+    }
   }
 
   return (
     <PagesContext.Provider
-      value={{ createPage, loadingPage, page, pages, fetchPages, editInfo, deletePage, autoSave }}
+      value={{ 
+        createPage, 
+        loadingPage, 
+        loadingAutoSave, 
+        page, 
+        pages, 
+        fetchPages,
+        editInfo, 
+        deletePage, 
+        autoSave,
+        success
+      }}
     >
       {children}
     </PagesContext.Provider>

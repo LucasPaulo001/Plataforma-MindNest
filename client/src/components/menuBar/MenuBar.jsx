@@ -1,7 +1,8 @@
 import { FaBold, FaItalic, FaList, FaUndo, FaRedo } from "react-icons/fa";
 import { MdOutlineTitle } from "react-icons/md";
+import { FaFilePdf } from "react-icons/fa6";
 
-export const MenuBar = ({ editor }) => {
+export const MenuBar = ({ editor, handleDownload }) => {
   if (!editor) return null;
 
   return (
@@ -47,6 +48,14 @@ export const MenuBar = ({ editor }) => {
         className="btnTool"
         >
         <FaRedo />
+      </button>
+
+      <button
+        onClick={handleDownload}
+        className="btnTool"
+        id="d_pdf"
+      >
+        <FaFilePdf />
       </button>
     </div>
   );
