@@ -113,9 +113,30 @@ export const PagesProvider = ({ children }) => {
     }
   }
 
+  //Autosalvar páginas
+  const autoSave = async (pageId, content) => {
+    try{
+      const res = await fetch(`${API_URI}/api/pages/save-progress/page/${pageId}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({ content })
+      })
+      const data = await res.json()
+      if(res.ok){
+        console.log(data)
+      }
+    } 
+    catch(err){
+      console.log(err)
+    }
+  }
+
   return (
     <PagesContext.Provider
-      value={{ createPage, loadingPage, page, pages, fetchPages, editInfo, deletePage }}
+      value={{ createPage, loadingPage, page, pages, fetchPages, editInfo, deletePage, autoSave }}
     >
       {children}
     </PagesContext.Provider>

@@ -1,0 +1,22 @@
+.containerEdit {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+  flex-direction: column;
+  padding-top: 4em;
+  gap: 3vw;
+  overflow-y: auto;
+}
+
+.localEdit{
+    width: 90%;
+    border-bottom: 1px solid #0372b1;
+    padding: 1rem;
+    background-color: aliceblue;
+    transition: .4s ease-in-out;
+}
+
+.localEdit:hover{
+    border-bottom: 5px solid #0372b1;
+}

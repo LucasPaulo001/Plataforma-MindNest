@@ -21,6 +21,25 @@ body {
   transition: 0.4s;
 }
 
+.containerTool{
+  display: flex;
+  gap: 1em;
+}
+
+.active {
+  background-color: black !important;
+  color: white;
+}
+
+.btnTool {
+  height: 30px;
+  width: 30px;
+  background-color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 .buttonStyle:hover {
   box-shadow: 1px 1px 5px #0372b1;
 }
@@ -145,6 +164,19 @@ aside {
 .containerHome {
   display: flex;
   height: 100vh;
+}
+
+.ProseMirror {
+  min-height: 300px;
+  outline: none;
+  padding: 1rem;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
 }
 
 .loading {
