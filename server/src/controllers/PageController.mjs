@@ -60,7 +60,7 @@ export const autoSave = async (req, res) => {
       });
     }
 
-    if (page.author.toString() !== req.body._id) {
+    if (page.author.toString() !== req.user._id.toString()) {
       return res.status({
         errors: ['Acesso negado!'],
       });
