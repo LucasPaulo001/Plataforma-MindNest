@@ -4,8 +4,9 @@
   justify-content: flex-start;
   align-items: center;
   flex: 1;
+  padding-bottom: 3vw;
   flex-direction: column;
-  padding-top: 4em;
+  padding-top: 1em;
   gap: 3vw;
   overflow-y: auto;
 }

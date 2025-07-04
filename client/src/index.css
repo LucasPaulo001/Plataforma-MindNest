@@ -23,19 +23,23 @@ body {
 
 .containerTool {
   display: grid;
-  gap: 1em;
-  grid-template-columns: repeat(13, 1fr);
+  row-gap: 1em;
+  grid-template-columns: repeat(10, 1fr);
+  border: 1px solid #0371b17c;
+  border-radius: 5px;
+  padding: 2vw;
+  box-shadow: 5px 5px #0372b1;
 }
 
 /* Responsividade do menuTool */
-@media(max-width: 865px){
-  .containerTool{
+@media (max-width: 865px) {
+  .containerTool {
     grid-template-columns: repeat(8, 1fr);
   }
 }
 
-@media(max-width: 630px){
-  .containerTool{
+@media (max-width: 630px) {
+  .containerTool {
     grid-template-columns: repeat(4, 1fr);
   }
 }
@@ -187,6 +191,11 @@ aside {
   padding: 1rem;
 }
 
+.ProseMirror img {
+  height: 150px;
+  border-radius: 5px;
+}
+
 .center {
   display: flex;
   align-items: center;
@@ -211,8 +220,8 @@ aside {
   left: 10px;
 }
 
-@media(max-width: 480px){
-  .status{
+@media (max-width: 480px) {
+  .status {
     top: 10px;
     right: 10px !important;
     left: auto !important;

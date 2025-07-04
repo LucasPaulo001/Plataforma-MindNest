@@ -5,6 +5,8 @@ import Underline from "@tiptap/extension-underline";
 import TextColor from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import TextAlign from "@tiptap/extension-text-align";
+import highlight from "@tiptap/extension-highlight";
+import Image from "@tiptap/extension-image";
 import { useEffect, useRef, useState } from "react";
 import { MenuBar } from "../menuBar/MenuBar";
 import { usePage } from "../../contexts/pagesContext";
@@ -31,6 +33,8 @@ export const Editor = ({ pageData, content }) => {
       Underline,
       TextColor,
       TextStyle,
+      highlight,
+      Image,
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
@@ -60,21 +64,29 @@ export const Editor = ({ pageData, content }) => {
   const handleDownloadPDF = () => {
     const contentElement = document.getElementById("editorContentToExport");
     contentElement.classList.remove(styles.localEdit);
-
     if (!contentElement) return;
 
-    const opt = {
-      margin: 0.5,
-      filename: `${pageData.title || "Documento"}.pdf`,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-    };
+    // Garante que todas as imagens foram carregadas
+    const images = contentElement.querySelectorAll("img");
+    const allImagesLoaded = Array.from(images).map((img) => {
+      if (img.complete) return Promise.resolve();
+      return new Promise((resolve) => {
+        img.onload = img.onerror = resolve;
+      });
+    });
 
-    html2pdf()
-      .set(opt)
-      .from(contentElement)
-      .save()
+    Promise.all(allImagesLoaded)
+      .then(() => {
+        const opt = {
+          margin: 0.5,
+          filename: `${pageData.title || "Documento"}.pdf`,
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true }, // usa CORS
+          jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+        };
+
+        html2pdf().set(opt).from(contentElement).save();
+      })
       .then(() => {
         contentElement.classList.add(styles.localEdit);
       });

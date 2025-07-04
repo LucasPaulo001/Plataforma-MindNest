@@ -5,6 +5,8 @@ import {
   FaUndo,
   FaRedo,
   FaUnderline,
+  FaHighlighter,
+  FaFileImage,
 } from "react-icons/fa";
 import { MdOutlineTitle } from "react-icons/md";
 import { FaFilePdf } from "react-icons/fa6";
@@ -12,7 +14,7 @@ import {
   CiTextAlignLeft,
   CiTextAlignCenter,
   CiTextAlignRight,
-  CiTextAlignJustify
+  CiTextAlignJustify,
 } from "react-icons/ci";
 
 export const MenuBar = ({ editor, handleDownload }) => {
@@ -42,29 +44,49 @@ export const MenuBar = ({ editor, handleDownload }) => {
       </button>
 
       <button
+        onClick={() => editor.chain().focus().toggleHighlight().run()}
+        className={`btnTool ${editor.isActive("highlight") ? "active" : ""}`}
+      >
+        <FaHighlighter />
+      </button>
+
+      <button
+        onClick={() => {
+          const file = window.prompt("Cole o link da imagem aqui:");
+          if (file) {
+            editor.chain().focus().setImage({ src: file }).run();
+          }
+        }}
+
         className="btnTool"
-        onClick={() => editor.chain().focus().setTextAlign('left').run()}
+      >
+        <FaFileImage />
+      </button>
+
+      <button
+        className="btnTool"
+        onClick={() => editor.chain().focus().setTextAlign("left").run()}
       >
         <CiTextAlignLeft />
       </button>
 
       <button
         className="btnTool"
-        onClick={() => editor.chain().focus().setTextAlign('center').run()}
+        onClick={() => editor.chain().focus().setTextAlign("center").run()}
       >
         <CiTextAlignCenter />
       </button>
 
       <button
         className="btnTool"
-        onClick={() => editor.chain().focus().setTextAlign('right').run()}
+        onClick={() => editor.chain().focus().setTextAlign("right").run()}
       >
         <CiTextAlignRight />
       </button>
 
       <button
         className="btnTool"
-        onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+        onClick={() => editor.chain().focus().setTextAlign("justify").run()}
       >
         <CiTextAlignJustify />
       </button>
