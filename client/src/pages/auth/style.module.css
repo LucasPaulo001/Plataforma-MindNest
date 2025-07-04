@@ -1,12 +1,12 @@
 .container {
-  height: 90vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .container form {
-  width: 65%;
+  width: 100%;
   height: 100%;
   display: flex;
   background-color: white;
@@ -32,10 +32,16 @@
 }
 
 .localInput {
-  width: 50%;
+  width: 90%;
   position: relative;
 }
 
 .localImg img {
   height: 90px;
+}
+
+@media (max-width: 490px) {
+  .container form {
+    gap: 10vw;
+  }
 }
