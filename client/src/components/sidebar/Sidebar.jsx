@@ -1,16 +1,23 @@
-import { useEffect, useState } from "react";
-import logo from "../../assets/images/logo.png";
-import { useAuth } from "../../contexts/authContext";
-import { usePage } from "../../contexts/pagesContext";
-import { Button } from "../buttons/Button";
-import { Loading } from "../loading/Loading";
+//Icones
 import { HiDotsVertical } from "react-icons/hi";
 import { FaCheck } from "react-icons/fa";
-import { useNavigate, Link } from "react-router-dom";
+import { GoChevronDown, GoChevronUp } from "react-icons/go";
+import { FiMenu } from "react-icons/fi";
+
+//Componentes
+import { Button } from "../buttons/Button";
+import { Loading } from "../loading/Loading";
 import { Dropdown } from "../dropdown/Dropdown";
 import { Input } from "../inputs/Input";
-import { FiMenu } from "react-icons/fi";
 import styles from "./Sidebar.module.css";
+import logo from "../../assets/images/logo.png";
+
+//módulos
+import { UserTools } from "../userTools/UserTools";
+import { useAuth } from "../../contexts/authContext";
+import { usePage } from "../../contexts/pagesContext";
+import { useNavigate, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export const Sidebar = () => {
   const [pageId] = useState(null);
@@ -18,9 +25,17 @@ export const Sidebar = () => {
   const [dropdownId, setDropdownId] = useState(null);
   const [title, setTitle] = useState("");
   const { usuario, loading } = useAuth();
-  const [openMenu, setOpenMenu] = useState(false);
-  const { createPage, loadingPage, pages, fetchPages, editInfo, deletePage } =
-    usePage();
+  const [openUserTools, setOpenUserTools] = useState(false);
+  const {
+    createPage, 
+    loadingPage, 
+    pages, 
+    fetchPages, 
+    editInfo, 
+    deletePage,
+    openMenu, 
+    setOpenMenu
+  } = usePage();
 
   const navigate = useNavigate();
 
@@ -46,15 +61,14 @@ export const Sidebar = () => {
 
   return (
     <>
-      <button 
-      onClick={() => setOpenMenu((prev) => !prev)}
-      className={styles.openMenu}
+      <button
+        onClick={() => setOpenMenu((prev) => !prev)}
+        className={styles.openMenu}
       >
         <FiMenu />
       </button>
-      <aside
-        className={`${openMenu ? styles.open : ""}`}
-      >
+      <aside className={`${openMenu ? styles.open : ""}`}>
+        {/* Ferramentas de usuário */}
         <div className="logoAside">
           <Link to={"/home"}>
             <img src={logo} alt="logo MindNest" />
@@ -62,13 +76,22 @@ export const Sidebar = () => {
           {loading ? (
             <Loading />
           ) : (
-            <p>
-              Espaço de
-              <strong> {usuario.nome}</strong>
-            </p>
+            <>
+              <button onClick={() => setOpenUserTools((prev) => !prev)}>
+                <span>
+                  Espaço de
+                  <strong> {usuario.nome}</strong>
+                </span>
+
+                {openUserTools ? <GoChevronUp /> : <GoChevronDown />}
+              </button>
+              <UserTools open={openUserTools} />
+            </>
           )}
           <span className="line"></span>
         </div>
+
+        {/* Criação de páginas */}
         <div className="localBtn">
           <Button
             text={"Adicionar página"}
@@ -86,7 +109,7 @@ export const Sidebar = () => {
                 className="liSideBar"
                 onClick={() => {
                   navigate(`/home?page=${p._id}`);
-                  setOpenMenu(false)
+                  setOpenMenu(false);
                 }}
               >
                 {/* Input de edição */}

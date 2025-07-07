@@ -1,9 +1,16 @@
-import styles from "./WelcomePage.module.css"
+import { usePage } from "../../contexts/pagesContext";
+import styles from "./WelcomePage.module.css";
 
 export const WelcomePage = () => {
-    return(
+  const { openMenu } = usePage();
+
+  return (
+    <>
+      {!openMenu && (
         <div className={styles.mainContent}>
-            <h1>Seja bem vindo ao MindNest!</h1>
+          <h1>Seja bem vindo ao MindNest!</h1>
         </div>
-    )
-}
+      )}
+    </>
+  );
+};
