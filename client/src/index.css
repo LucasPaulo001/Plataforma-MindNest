@@ -29,19 +29,19 @@ body {
   border: 1px solid #0371b17c;
   position: sticky;
   top: 0;
-  opacity: .4;
+  opacity: 0.4;
   border-radius: 5px;
   padding: 2vw;
   box-shadow: 5px 5px #0372b1;
-  transition: .4s ease-in-out;
+  transition: 0.4s ease-in-out;
   z-index: 999;
 }
 
-.containerTool:hover{
+.containerTool:hover {
   opacity: 1;
 }
 
-.containerTool h2{
+.containerTool h2 {
   color: #0372b1;
 }
 
@@ -126,6 +126,15 @@ a {
 
 .logoAside img {
   height: 90px;
+}
+
+.logoAside button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
 }
 
 .line {
@@ -252,6 +261,42 @@ aside {
   .inputStyle {
     height: 40px;
     font-size: 4vw;
+  }
+
+  .btnsContainer {
+    max-width: 320px;
+    display: flex;
+    gap: 2em;
+    overflow-y: auto;
+  }
+
+  .ProseMirror {
+    margin-bottom: 50%;
+  }
+
+  .containerTool {
+    opacity: 1;
+    top: unset;
+    position: fixed;
+    bottom: 0 !important;
+    background-color: white !important;
+  }
+
+  .logoAside button{
+    font-size: 5vw;
+  }
+
+  .dropdown {
+    bottom: unset;
+    display: flex;
+    padding: 1em;
+    top: 3em;
+    gap: 5vw;
+    flex-direction: column;
+  }
+
+  .listPage svg {
+    font-size: 8vw;
   }
 }
 

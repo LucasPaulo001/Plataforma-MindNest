@@ -8,8 +8,9 @@ const API_URI = import.meta.env.VITE_API_URL;
 export const PagesProvider = ({ children }) => {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const [openMenu, setOpenMenu] = useState(false);
   const [loadingPage, setLoadingPage] = useState(false);
-  const [loadingAutoSave, setLoadingAutoSave] = useState(false)
+  const [loadingAutoSave, setLoadingAutoSave] = useState(false);
   const [page, setPage] = useState(null);
   const [pages, setPages] = useState([]);
 
@@ -81,7 +82,7 @@ export const PagesProvider = ({ children }) => {
 
       if (res.ok) {
         console.log(data);
-        setPages(data.pageEdited)
+        setPages(data.pageEdited);
       }
     } catch (err) {
       console.log(err);
@@ -90,73 +91,77 @@ export const PagesProvider = ({ children }) => {
 
   //Deletar páginas
   const deletePage = async (pageId) => {
-    try{
-      setLoadingPage(true)
-      const res = await fetch(`${API_URI}/api/pages/delete-page/page/${pageId}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
+    try {
+      setLoadingPage(true);
+      const res = await fetch(
+        `${API_URI}/api/pages/delete-page/page/${pageId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-      })
-      const data = await res.json()
+      );
+      const data = await res.json();
 
-      if(res.ok){
-        console.log(data)
-        setLoadingPage(false)
+      if (res.ok) {
+        console.log(data);
+        setLoadingPage(false);
       }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingPage(false);
     }
-    catch(err){
-      console.log(err)
-    }
-    finally{
-      setLoadingPage(false)
-    }
-  }
+  };
 
   //Autosalvar páginas
   const autoSave = async (pageId, content) => {
-    setLoadingAutoSave(true)
-    try{
-      const res = await fetch(`${API_URI}/api/pages/save-progress/page/${pageId}`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({ content })
-      })
-      const data = await res.json()
-      if(res.ok){
-        console.log(data)
-        setLoadingAutoSave(false)
-        setSuccess("Página salva!")
+    setLoadingAutoSave(true);
+    try {
+      const res = await fetch(
+        `${API_URI}/api/pages/save-progress/page/${pageId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({ content }),
+        }
+      );
+      const data = await res.json();
+      if (res.ok) {
+        console.log(data);
+        setLoadingAutoSave(false);
+        setSuccess("Página salva!");
 
         setTimeout(() => {
-          setSuccess("")
-        }, 2000)
+          setSuccess("");
+        }, 2000);
       }
-    } 
-    catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingAutoSave(false);
     }
-    finally{
-      setLoadingAutoSave(false)
-    }
-  }
+  };
 
   return (
     <PagesContext.Provider
-      value={{ 
-        createPage, 
-        loadingPage, 
-        loadingAutoSave, 
-        page, 
-        pages, 
+      value={{
+        createPage,
+        loadingPage,
+        loadingAutoSave,
+        page,
+        pages,
         fetchPages,
-        editInfo, 
-        deletePage, 
+        editInfo,
+        deletePage,
         autoSave,
-        success
+        success,
+        openMenu, 
+        setOpenMenu
       }}
     >
       {children}

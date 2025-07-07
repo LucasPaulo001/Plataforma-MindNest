@@ -1,0 +1,24 @@
+
+.containerUT{
+    background-color: #0371b12c;
+    padding: 1em;
+    border-radius: 5px;
+}
+
+.containerUT ul li{
+    list-style: none;
+    cursor: pointer;
+    padding: .5em;
+    border-radius: 1em;
+}
+
+.sair{
+    color: rgba(255, 0, 0, 0.651);
+    font-weight: bold;
+    transition: .2s ease-in-out;
+}
+
+.sair:hover{
+    background-color: rgba(255, 0, 0, 0.651);
+    color: white;
+}

@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     if (token && usuario) {
       setToken(token);
-      getMe()
+      getMe();
     }
   }, []);
 
@@ -83,7 +83,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", data.token);
       await getMe();
       setLoading(false);
-
     } catch (err) {
       console.log(err);
     } finally {
@@ -91,10 +90,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  //logout
+  const logout = () => {
+    setToken(null);
+    setUsuario({});
+    localStorage.removeItem("token");
+  };
+
   //Função para pegar dados do usuário (Importante para inicializar com os dados do usuário logado)
   const getMe = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
 
       const res = await fetch(`${API_URI}/api/users/profile`, {
         // A autorização é importante para conseguir ter acesso aos dados do usuário
@@ -108,20 +114,28 @@ export const AuthProvider = ({ children }) => {
       if (res.ok) {
         setUsuario(data);
         console.log(data);
-        setLoading(false)
+        setLoading(false);
       }
     } catch (err) {
       console.log(err);
-    }
-    finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     // Aqui injetamos no contexto todas as funções
     <AuthContext.Provider
-      value={{ register, loading, success, error, login, usuario, token }}
+      value={{
+        register,
+        loading,
+        success,
+        error,
+        login,
+        usuario,
+        token,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
