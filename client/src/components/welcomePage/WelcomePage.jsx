@@ -14,7 +14,7 @@ export const WelcomePage = () => {
           <h1>Seja bem vindo ao MindNest!</h1>
 
           <p>
-            Organize ideias suas ideias <FcIdea />
+            Organize suas ideias <FcIdea />
           </p>
           <span>
             <Link to={"https://github.com/LucasPaulo001"} target="_blank">
