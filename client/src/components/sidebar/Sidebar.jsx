@@ -28,7 +28,7 @@ export const Sidebar = () => {
     if (usuario && usuario._id) {
       fetchPages(usuario.workspaces[0]);
     }
-  }, [usuario]);
+  }, [usuario, pageId]);
 
   //Função para criar páginas
   const handleCreate = async () => {
@@ -41,11 +41,8 @@ export const Sidebar = () => {
   //Função de deletar página
   const handleDelete = async (pageId) => {
     await deletePage(pageId);
+    await fetchPages(usuario.workspaces[0]);
   };
-
-  useEffect(() => {
-    fetchPages();
-  }, [pages]);
 
   return (
     <>
